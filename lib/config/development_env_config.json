@@ -1,0 +1,39 @@
+{
+  "express": {
+    "protocol": "http://",
+    "useFqdnForApis": false,
+    "ipAddress": "127.0.0.1",
+    "fqdn": "",
+    "port": 3008,
+    "apiUrl": "v1"
+  },
+  "database": {
+    "username": "Abhishek",
+    "password": "abhi0023",
+    "name": "development",
+    "host": "@cluster0.nxevonu.mongodb.net",
+    "port": 27017,
+    "authSource": "admin",
+    "options": {
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true,
+      "useCreateIndex": true
+    }
+  },
+  "cors": {
+    "whitelistUrls": [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://127.0.0.1:3000",
+      "http://192.168.0.10:3000"
+    ]
+  },
+  "firebaseAdminSdk":{
+    "databaseURL" : "https://house-hub-91918-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "bucketURL" : "gs://house-hub-91918.appspot.com"
+  },
+  "mapAuth":{
+    "apikey" : "AIzaSyCwZOvgnv5kbPr8pOh813mjjP1h5QqN3Ao",
+    "distanceMatrixApiKey" : "AIzaSyD1eObCQU0g0n6qrcMB6m5rBdMQmxR-JHM"
+  }
+}
