@@ -11,7 +11,7 @@ console.log("➡️ Starting to load components in main app")
 mongooseLoader();
 
 const options = {
-	key : fs.readFileSync('/home/captain/codes/househub-backend/private.key'),
+	key : fs.readFileSync(''),
 	cert : fs.readFileSync('certificate.crt')
 }
 
