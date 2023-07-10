@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import nconf from "../../../lib/config/index";
-import { BadRequestParameterError } from "../../../lib/errors/index";
 import { storage } from "firebase-admin";
 
 
@@ -57,7 +56,7 @@ class FileService  {
 
   async genSignedURL(extension: string) {
     try {
-      const key = uuidv4();
+      const key:string = uuidv4();
       const file = bucket.file(`images/${key}.${extension}`);
 
       const options:any = {

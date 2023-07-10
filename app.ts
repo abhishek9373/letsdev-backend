@@ -2,14 +2,24 @@ import {
     expressApp,
     mongooseLoader
 } from './loaders';
+//load various app components
+import https from 'https';
+import fs from 'fs';
 
 // load components
 console.log("➡️ Starting to load components in main app")
 mongooseLoader();
 
-// get port from env else default to 3014
-const port: string = process.env.PORT || "3014";
+const options = {
+	key : fs.readFileSync('/home/captain/codes/househub-backend/private.key'),
+	cert : fs.readFileSync('certificate.crt')
+}
 
-expressApp.listen(port, () =>
-    console.log(`✅  HouseHub Service is listening on port ${port}.`));
+const server = https.createServer(options, expressApp);
+
+// get port from env else default to 3014
+const port: string = process.env.PORT || "3015";
+
+server.listen(port, () =>
+    console.log(`✅  Letsdev Service is listening on port ${port}.`));
 
