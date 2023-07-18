@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
-
 import FileService from "../services/File.service";
+import { customRequest } from "../../../lib/authentication/jwt/passpost-jwt-strategy";
 const { BadRequestParameterError } = require("../../../lib/errors");
 
 const fileService = new FileService();
@@ -12,7 +12,7 @@ class FileController {
    * @param {Object} req The request object.
    * @param {Object} res The response object.
    */
-  async getSignedURL(req:any, res:any, next:NextFunction) {
+  async getSignedURL(req: any, res:any, next:NextFunction) {
     try {
       const { requirement, module }:{requirement:any, module:any} = req.body;
       const userId = req.user._id;
@@ -38,4 +38,4 @@ class FileController {
   }
 }
 
-module.exports = FileController;
+export default FileController;

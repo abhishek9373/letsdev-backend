@@ -19,7 +19,15 @@ const validate = (schema: { query?: any, body?: any, params?: any }) => {
         ...(bodyResult.error && { body: bodyResult.error.details }),
         ...(paramsResult.error && { params: paramsResult.error.details }),
       };
-      
+      if(queryResult.error){
+        return next(new BadRequestParameterError(`${queryResult.error.details[0].message}`));
+      }
+      if(bodyResult.error){
+        return next(new BadRequestParameterError(`${bodyResult.error.details[0].message}`));
+      }
+      if(paramsResult.error){
+        return next(new BadRequestParameterError(`${paramsResult.error.details[0].message}`));
+      }
       return next(new BadRequestParameterError("Invalid parameters/body fields received"));
     }
 

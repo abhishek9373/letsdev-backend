@@ -1,7 +1,5 @@
 const MESSAGES = {
-    CAMPUS_ALREADY_SET: "Campus already set",
-    CAMPUS_NOT_FOUND: "Campus not found",
-    COMMUNITY_NOT_EXISTS: 'Community does not exist',
+    ACCOUNT_BLOCKED: 'Account has been blocked by some reson contact administrator',
     USERNAME_EXISTS: 'Username already exists',
     USERNAME_ALREADY_SET: "Username already set",
     USER_NOT_EXISTS: 'User does not exist',
@@ -37,9 +35,8 @@ const MESSAGES = {
     RESET_PASSWORD_SUCCESS: 'Password has been reset successfully',
     CHANGE_PASSWORD_SUCCESS: 'Password has been changed successfully',
     HANDLE_EXISTS: 'Handle with the given name already exists',
-    // LECTURE_ROOM_ALREADY_EXISTS: 'Lecture room with the given name already exists',
     NOT_ADMIN: "You are not admin",
-    NOT_COMMUNITY_MODERATOR: "You are not community moderator",
+    SESSION_NOT_FOUND : "Session not found"
 };
 
 export default MESSAGES;

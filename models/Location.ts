@@ -1,6 +1,6 @@
 import mongoose from "mongoose";'mongoose';
 
-const LocationSchema = new mongoose.Schema({
+export const LocationSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -25,6 +25,5 @@ const LocationSchema = new mongoose.Schema({
 
 LocationSchema.index({ location: '2dsphere' });
 
-export default LocationSchema
 
 

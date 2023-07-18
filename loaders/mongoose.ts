@@ -9,7 +9,7 @@ export default async function connectToDatabase() {
 
         await mongoose.connect(mongoURI, options);
         console.log(`✅  MongoDB connected on database ${name}`);
-    } catch (error) {
+    } catch (error: any) {
         console.log(`❌  Failed: Error establishing database connection`);
         console.error(error);
         process.exit(1);

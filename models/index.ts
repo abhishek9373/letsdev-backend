@@ -1,16 +1,17 @@
-import mongoose, { Model, Document, Schema } from "mongoose";
+import mongoose, { Model, Document, Schema, model } from "mongoose";
 
 // import all schemas here
-
-interface IModels {
-  // define interface for models
-  Schema1: Model<Document>;
-  Schema2: Model<Document>;
-  Schema3: Model<Document>;
-}
+import { userSchema } from "../modules/user/models/User";
+import { SessionSchema } from "./session";
+import { LocationSchema } from "./Location";
+import { FileSchema } from "../modules/file/models/File";
 
 const schemas: { [key: string]: Schema } = {
   // list of all schemas
+  User: userSchema,
+  Session: SessionSchema,
+  Location: LocationSchema,
+  File: FileSchema
 };
 
 const models:any = {};
@@ -20,4 +21,7 @@ Object.keys(schemas).forEach((schemaName) => {
   models[schemaName] = mongoose.model<Document>(schemaName, schema);
 });
 
-export default models;
+export const User = models.User;
+export const Session = models.Session;
+export const Location = models.Location;
+export const File = models.File;

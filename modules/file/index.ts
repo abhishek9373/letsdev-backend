@@ -1,3 +1,3 @@
-const route = require("./routes/File.route");
+import route from "./routes/File.route"
 
 export default route;

@@ -1,7 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
 import nconf from "../../../lib/config/index";
 import { storage } from "firebase-admin";
+import admin from 'firebase-admin'
+import { File } from "../../../models";
+import { BadRequestParameterError } from "../../../lib/errors";
 
+// connect with firebase admin sdk
+const serviceAccount = require('../../../lib/config/firebaseAdminPrivateKey.json');
+const { databaseURL } = nconf.get('firebaseAdminSdk');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: databaseURL,
+});
 
 const firebaseAdminSdk: { [key: string]: any } = nconf.get("firebaseAdminSdk");
 const bucket = storage().bucket(firebaseAdminSdk.bucketURL);
@@ -85,10 +95,10 @@ class FileService  {
     try {
       await Promise.all(
         fileIds.map(async (fileId: string) => {
-          // const file = await File.findById(fileId);
-          // if (file && userId.toString() !== file.userId.toString()) {
-          //   throw new BadRequestParameterError("File ownership verification failed");
-          // }
+          const file = await File.findById(fileId);
+          if (file && userId.toString() !== file.userId.toString()) {
+            throw new BadRequestParameterError("File ownership verification failed");
+          }
         })
       );
 
@@ -106,9 +116,9 @@ class FileService  {
    */
   async store(data: any) {
     try {
-      // const fileModel = new File(data);
-      // const result = await fileModel.save();
-      // return result;
+      const fileModel = new File(data);
+      const result = await fileModel.save();
+      return result;
     } catch (error) {
       throw error;
     }
@@ -121,21 +131,21 @@ class FileService  {
    */
   async getImageUrl({ files }: any) {
     try {
-      const response = await Promise.all(
-        files.map(async (file: any) => {
-          // const detailedFile = await File.findById(file.fileId).lean();
-          // const fileRef = bucket.file(`images/${detailedFile.key}.${detailedFile.extension}`);
-          // const options = {
-          //   action: "read",
-          //   expires: "3600",
-          // };
-          // const [url] = await fileRef.getSignedUrl(options);
-          // const res = { order: detailedFile.order, url };
-          // return res;
-        })
-      );
+      // const response = await Promise.all(
+      //   files.map(async (file: any) => {
+      //     const detailedFile = await File.findById(file.fileId).lean();
+      //     const fileRef = bucket.file(`images/${detailedFile.key}.${detailedFile.extension}`);
+      //     const options = {
+      //       action: "read",
+      //       expires: "3600",
+      //     };
+      //     const [url]:any = await fileRef.getSignedUrl(options);
+      //     const res = { order: detailedFile.order, url };
+      //     return res;
+      //   })
+      // );
 
-      return response;
+      // return response;
     } catch (error) {
       throw error;
     }

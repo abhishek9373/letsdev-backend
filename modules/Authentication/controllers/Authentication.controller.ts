@@ -1,58 +1,41 @@
-import { Request, Response, NextFunction } from 'express';
-import { DuplicateRecordFoundError, BadRequestParameterError } from "../../../lib/errors";
+import { Response, NextFunction } from 'express';
+import { BadRequestParameterError, DuplicateRecordFoundError } from "../../../lib/errors";
+import UserI from '../../../interfaces/User.Interface';
+import { User } from '../../../models';
 import AuthenticationService from "../services/Authentication.service";
 const authenticationService = new AuthenticationService();
+
 
 export class AuthenticationController {
   async login(req: any, res: Response, next: NextFunction) {
     try {
-      const { deviceId, firebaseToken, deviceModel, deviceOS, appVersion } = req.body;
-      const userId = req.user._id;
-      const response = await authenticationService.login({
-        deviceId,
-        firebaseToken,
-        deviceModel,
-        deviceOS,
-        appVersion,
+      const { deviceId, deviceOS, appVersion, email, password } = req.body;
+      // check if user present or not
+      let user: UserI | null = await User.findOne({ email }).lean();
+      if(!user){
+        // verify email and create new user
+        // const isEmailOk: Boolean = await authenticationService.verfyEmail(email);
+        // if(!isEmailOk){ return res.status(200).json({ message: "email does not exist" }) }
+        const encryptPassword: string = await authenticationService.encryptPassword(password);
+        const user: any = await User.create({ email, password: encryptPassword });
+        const response: string = await authenticationService.login({
+          IPAddress: req.IPAddress,
+          userAgent: req.headers["user-agent"],
+          userId: user._id
+        });
+        return res.status(400).json({data: response});
+      }
+      // verfy users password
+      const isPasswordOk: boolean = await authenticationService.verifyPassword(password, user.password);
+      if(!isPasswordOk){ return next(new BadRequestParameterError("invalid password")) }
+      const response: string = await authenticationService.login({
         IPAddress: req.IPAddress,
         userAgent: req.headers["user-agent"],
-        userId
+        userId: user._id
       });
-      return res.json(response);
+      return res.status(200).json({data: response});
     } catch (error) {
       next(error);
-    }
-  }
-
-  /**
-   * Controller to link Google account
-   * @param req
-   * @param res
-   * @param next
-   * @returns {Promise<void>}
-   */
-  async newUser(req: any, res: Response, next: NextFunction) {
-    try {
-      // const { phone } = req.body;
-      // const { IPAddress, userAgent } = req;
-      // // check for existing account 
-      // const user = await User.findOne({ mobile: phone });
-      // if (user) {
-      //   const { deviceId, firebaseToken, deviceModel, deviceOS, appVersion } = req.body;
-      //   const response = await authenticationService.login({ deviceId, firebaseToken, deviceModel, deviceOS, appVersion, IPAddress, userAgent, userId: user._id });
-      //   res.status(201).json({ data: response });
-      // } else {
-      //   const currentUser = await User.create({ mobile: phone });
-      //   if (currentUser) {
-      //     const { deviceId, firebaseToken, deviceModel, deviceOS, appVersion } = req.body;
-      //     const user = await authenticationService.login({ deviceId, firebaseToken, deviceModel, deviceOS, appVersion, IPAddress, userAgent, userId: currentUser._id });
-      //     res.status(201).json({ data: user });
-      //   } else {
-      //     next(new BadRequestParameterError("Something Went Wrong"));
-      //   }
-      // }
-    } catch (err) {
-      next(new DuplicateRecordFoundError("User already present with that number"));
     }
   }
 }

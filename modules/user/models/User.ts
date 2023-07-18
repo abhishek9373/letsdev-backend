@@ -1,0 +1,23 @@
+import Mongoose from "mongoose";
+
+export const userSchema: Mongoose.Schema = new Mongoose.Schema({
+    name: {
+        type: String,
+        index: true
+    }, 
+    email: {
+        type: String,
+        unique: true,
+        index: true
+    },
+    gender: {
+        type: Number,
+        enum: [1, 2, 0]
+    }
+},
+    {
+        strict: false,
+        timestamps: true,
+        versionKey: false
+    },
+);

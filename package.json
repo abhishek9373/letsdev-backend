@@ -2,25 +2,30 @@
   "name": "letsdev-services",
   "version": "1.0.0",
   "description": "letsdev is a web platfrom for devlopers",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec ts-node app.ts --trace-depracation",
     "build": "tsc"
   },
   "author": "Abhishek Gund",
   "license": "MIT",
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "firebase-admin": "^10.0.2",
     "helmet": "^7.0.0",
     "joi": "^17.9.2",
     "mongoose": "^5.9.28",
     "morgan": "^1.10.0",
     "nconf": "^0.12.0",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "redis": "^4.6.7",
     "ts-node": "^10.9.1",
     "uuid": "^9.0.0"
@@ -28,9 +33,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.7",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.4",
     "@types/nconf": "^0.10.3",
+    "@types/passport-jwt": "^3.0.9",
+    "@types/passport-local": "^1.0.35",
     "@types/uuid": "^9.0.2"
   }
 }
