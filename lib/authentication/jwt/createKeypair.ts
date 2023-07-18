@@ -16,10 +16,10 @@ function genKeyPair() {
   });
 
   // Create the public key file
-  // fs.writeFileSync(__dirname + '/pub_key.pem', keyPair.publicKey.toString('base64'));
+  fs.writeFileSync(__dirname + '/keys/pub_key.pem', keyPair.publicKey.toString());
 
   // Create the private key file
-  // fs.writeFileSync(__dirname + '/priv_key.pem', keyPair.privateKey.toString('base64'));
+  fs.writeFileSync(__dirname + '/keys/priv_key.pem', keyPair.privateKey.toString());
 }
 
 // Generates the keypair
