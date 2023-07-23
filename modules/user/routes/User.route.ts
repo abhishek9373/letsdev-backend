@@ -9,7 +9,10 @@ const router: Router = Router();
 
 
 router.patch('/', 
-	ValidatorMiddleware(updateUser))
+	ValidatorMiddleware(updateUser), userController.update)
 	.get('/', userController.getUser)
+
+router.post('/verify', 
+	userController.verify)
 
 export default router;
