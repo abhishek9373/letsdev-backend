@@ -47,7 +47,7 @@ class AuthenticationService {
         email: email
       })
       const sessionResponse = await session.save();
-      const verifyUrl = `https://devbuilder.tech/services/email/verify/${sessionResponse._id}`;
+      const verifyUrl = `https://devbuilder.tech/services/auth/verifyemail/${sessionResponse._id}`;
       // send email with verify link
       await emailService.sendEmail(email, verifyUrl);
 
