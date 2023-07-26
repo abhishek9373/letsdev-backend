@@ -13,6 +13,10 @@ export const userSchema: Mongoose.Schema = new Mongoose.Schema({
     gender: {
         type: Number,
         enum: [1, 2, 0]
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 },
     {
