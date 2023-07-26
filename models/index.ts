@@ -5,13 +5,17 @@ import { userSchema } from "../modules/user/models/User";
 import { SessionSchema } from "./session";
 import { LocationSchema } from "./Location";
 import { FileSchema } from "../modules/file/models/File";
+import { PostSchema } from "../modules/post/models/Post";
+import { PostPreferenceSchema } from "../modules/post/models/PostPreferences";
 
-const schemas: { [key: string]: Schema } = {
+export const schemas: any  = {
   // list of all schemas
   User: userSchema,
   Session: SessionSchema,
   Location: LocationSchema,
-  File: FileSchema
+  File: FileSchema,
+  Post: PostSchema,
+  PostPreference: PostPreferenceSchema
 };
 
 const models:any = {};
@@ -25,3 +29,5 @@ export const User = models.User;
 export const Session = models.Session;
 export const Location = models.Location;
 export const File = models.File;
+export const Post = models.Post;
+export const PostPreference = models.PostPreference;

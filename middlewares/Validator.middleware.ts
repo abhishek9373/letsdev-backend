@@ -30,7 +30,6 @@ const validate = (schema: { query?: any, body?: any, params?: any }) => {
       }
       return next(new BadRequestParameterError("Invalid parameters/body fields received"));
     }
-
     next();
   };
 };
