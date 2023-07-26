@@ -31,5 +31,8 @@
   "firebaseAdminSdk":{
     "databaseURL" : "https://letsdev-3b8fc-default-rtdb.asia-southeast1.firebasedatabase.app",
     "bucketURL" : "gs://letsdev-3b8fc.appspot.com"
+  },
+  "pagination":{
+    "limit": 10
   }
 }
