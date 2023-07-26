@@ -131,21 +131,21 @@ class FileService  {
    */
   async getImageUrl({ files }: any) {
     try {
-      // const response = await Promise.all(
-      //   files.map(async (file: any) => {
-      //     const detailedFile = await File.findById(file.fileId).lean();
-      //     const fileRef = bucket.file(`images/${detailedFile.key}.${detailedFile.extension}`);
-      //     const options = {
-      //       action: "read",
-      //       expires: "3600",
-      //     };
-      //     const [url]:any = await fileRef.getSignedUrl(options);
-      //     const res = { order: detailedFile.order, url };
-      //     return res;
-      //   })
-      // );
+      const response = await Promise.all(
+        files.map(async (file: any) => {
+          const detailedFile = await File.findById(file.fileId).lean();
+          const fileRef = bucket.file(`images/${detailedFile.key}.${detailedFile.extension}`);
+          const options: any = {
+            action: "read",
+            expires: "3600",
+          };
+          const [url]:any = await fileRef.getSignedUrl(options);
+          const res = { url };
+          return res;
+        })
+      );
 
-      // return response;
+      return response;
     } catch (error) {
       throw error;
     }
