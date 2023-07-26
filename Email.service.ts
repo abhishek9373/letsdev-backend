@@ -1,5 +1,5 @@
-const { User } = require("../../../models")
-const nodemailer = require('nodemailer');
+import { User } from "./models/index"
+import nodemailer from 'nodemailer'
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-class EmailService {
+export class EmailService {
     constructor({model = User}) { }
 
     /**
@@ -17,18 +17,19 @@ class EmailService {
 	 * @param location
 	 * @returns {Promise<Document<any, any, unknown> & {}>}
 	 */
-	async sendEmail() {
+	async sendEmail(email: string, verifyLink: string) {
 		try {
               const mailOptions = {
                 from: 'abhishek.househub@gmail.com', // Sender's email address
-                to: 'abhishekgund500@gmail.com', // Recipient's email address
-                subject: 'New flat notification for platform Admin', // Email subject
+                to: `${email}`, // Recipient's email address
+                subject: 'verify your email for letsdev',
+                body: '', // Email subject
                 html :`<!doctype html>
                 <html>
                 <head>
                   <meta name="viewport" content="width=device-width" />
                   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                  <title>New flat notification for platform Admin</title>
+                  <title>verify your email to onboard</title>
                   <style>
                     /* Your existing styles */
                 
@@ -65,17 +66,13 @@ class EmailService {
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tr>
                                     <td>
-                                      <!-- Centered image -->
-                                      <div class="centered-image">
-                                        <img src="https://img.freepik.com/free-photo/aerial-beautiful-shot-seashore-with-hills-background-sunset_181624-24143.jpg?w=1060&t=st=1686515375~exp=1686515975~hmac=f91951970d9d94365d88236c2b538818e5a562996762de729ac28df9d5cd7d58" alt="Image">
-                                      </div>
                                     </td>
                                   </tr>
                                   <tr>
                                     <td>
                                       <!-- Button -->
                                       <div class="button">
-                                        <a href="your-button-link">Show more details of flat owner</a>
+                                        <a href="${verifyLink}">click to verify</a>
                                       </div>
                                     </td>
                                   </tr>
@@ -89,16 +86,16 @@ class EmailService {
                   </table>
                 </body>
                 </html>
-                ` // Email content in plain text
+                `
               };
 
-            //   transporter.sendMail(mailOptions, (error, info) => {
-            //     if (error) {
-            //       console.error('Error sending email:', error);
-            //     } else {
-            //       console.log('Email sent:', info.response);
-            //     }
-            // });
+              transporter.sendMail(mailOptions, (error: any, info: any) => {
+                if (error) {
+                  throw(error)
+                } else {
+                  return true;
+                }
+            });
 
 			return {data : true}
 		} catch (error) {
@@ -107,4 +104,3 @@ class EmailService {
 	}
 }
 
-module.exports = EmailService;
