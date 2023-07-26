@@ -27,7 +27,7 @@ export class AuthenticationController {
           userAgent: req.headers["user-agent"],
           userId: user._id
         });
-        return res.status(400).json({data: response});
+        return res.status(200).json({data: response});
       }
       // check if user is verified
       const isPasswordOk: boolean = await authenticationService.verifyPassword(password, user.password);

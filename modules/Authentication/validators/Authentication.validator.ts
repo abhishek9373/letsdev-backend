@@ -12,7 +12,7 @@ const sessionValidator = {
 
 const emailSessionValidator = {
     params: Joi.object({
-        fileId: Joi.custom(objectIdValidator).required()
+        sessionId: Joi.custom(objectIdValidator).required()
     })
 }
 
