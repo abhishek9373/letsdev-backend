@@ -1,10 +1,11 @@
 import TokenService from './Token.service';
 import { NoRecordFoundError } from '../../../lib/errors';
-import { User } from '../../../models';
+import { EmailSession, User } from '../../../models';
 import { Sessions } from '../../../interfaces/Sessions';
-import axios from 'axios';
 import { jsonwebtoken } from "../../../lib/authentication";
+import { EmailService } from '../../../Email.service';
 
+const emailService = new EmailService({ model: User});
 const JsonWebToken = new jsonwebtoken();
 const tokenService = new TokenService();
 
@@ -39,24 +40,19 @@ class AuthenticationService {
   * @param {object} email - http request object
   * @returns {Promise<Object>}
   */
-  async verfyEmail(email: String): Promise<any> {
+  async createSessionAndSendEmail(email: string): Promise<any> {
     try {
-      const apiKey = 'test_350002eb441ea26bf27cc05433b69fb6c4f8983a672e9ec907d71947c02cae30';
-      const response = await axios.get(`https://api.kickbox.com/v2/verify?email=${email}`, {
-        headers: {
-          Authorization: `Bearer ${apiKey}`
-        }
-      });
+      // create session
+      const session = new EmailSession({
+        email: email
+      })
+      const sessionResponse = await session.save();
+      const verifyUrl = `https://devbuilder.tech/services/email/verify/${sessionResponse._id}`;
+      // send email with verify link
+      await emailService.sendEmail(email, verifyUrl);
 
-      const { result, reason } = response.data;
-
-      if (result === 'deliverable') {
-        return true;
-      } else {
-        false;
-      }
     } catch (error: any) {
-      console.error('Error verifying email:', error.message);
+      throw(error);
     }
   }
 

@@ -1,3 +1,5 @@
+import { objectIdValidator } from "../../../lib/validators/validators.lib";
+
 const Joi = require('joi');
 
 
@@ -5,6 +7,12 @@ const sessionValidator = {
     body: Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().required(),
+    })
+}
+
+const emailSessionValidator = {
+    params: Joi.object({
+        fileId: Joi.custom(objectIdValidator).required()
     })
 }
 
@@ -22,4 +30,4 @@ const OTPResquestValidator = {
     })
 }
 
-export { sessionValidator, OTPResquestValidator };
+export { sessionValidator, OTPResquestValidator, emailSessionValidator };
