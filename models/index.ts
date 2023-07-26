@@ -1,4 +1,4 @@
-import mongoose, { Model, Document, Schema, model } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 // import all schemas here
 import { userSchema } from "../modules/user/models/User";
@@ -7,6 +7,7 @@ import { LocationSchema } from "./Location";
 import { FileSchema } from "../modules/file/models/File";
 import { PostSchema } from "../modules/post/models/Post";
 import { PostPreferenceSchema } from "../modules/post/models/PostPreferences";
+import { EmailSession as EmailSessionSchema } from "../modules/user/models/EmailSession";
 
 export const schemas: any  = {
   // list of all schemas
@@ -15,7 +16,8 @@ export const schemas: any  = {
   Location: LocationSchema,
   File: FileSchema,
   Post: PostSchema,
-  PostPreference: PostPreferenceSchema
+  PostPreference: PostPreferenceSchema,
+  EmailSession : EmailSessionSchema
 };
 
 const models:any = {};
@@ -31,3 +33,4 @@ export const Location = models.Location;
 export const File = models.File;
 export const Post = models.Post;
 export const PostPreference = models.PostPreference;
+export const EmailSession = models.EmailSession;
