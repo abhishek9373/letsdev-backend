@@ -11,7 +11,7 @@ export const userSchema: Mongoose.Schema = new Mongoose.Schema({
         index: true
     },
     gender: {
-        type: Number,
+        type: String,
         enum: [1, 2, 0]
     },
     isVerified: {

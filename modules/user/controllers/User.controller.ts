@@ -58,6 +58,6 @@ export default class userController extends UserService {
 
 interface updateUser{
     name: string,
-    gender: number,
+    gender: string,
     branch: string
 }
