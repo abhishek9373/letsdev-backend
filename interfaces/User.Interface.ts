@@ -3,7 +3,7 @@ export default interface UserI {
     isVerified: boolean,
     email: string,
     password: string,
-    gender?: number,
+    gender?: string,
     branch?:string,
     createdAt: Date,
     updatedAt: Date,
