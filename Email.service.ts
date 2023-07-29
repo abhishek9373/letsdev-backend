@@ -1,10 +1,13 @@
 import { User } from "./models/index"
 import nodemailer from 'nodemailer'
+import nconf from "./lib/config";
+
+const configs = nconf.get('platFormEmail');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "letsdev.dev@gmail.com", // Your email address
-      pass: "ntrpbsbzfxzuamfo"
+      user: configs.email,
+      pass: configs.pass
     }
   });
 
@@ -20,8 +23,8 @@ export class EmailService {
 	async sendEmail(email: string, verifyLink: string) {
 		try {
               const mailOptions = {
-                from: 'letsdev.dev@gmail.com', // Sender's email address
-                to: `${email}`, // Recipient's email address
+                from: configs.email,
+                to: `${email}`,
                 subject: 'verify your email for letsdev',
                 html :`<!doctype html>
                 <html>
