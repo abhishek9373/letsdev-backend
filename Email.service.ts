@@ -3,8 +3,8 @@ import nodemailer from 'nodemailer'
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "abhishek.househub@gmail.com", // Your email address
-      pass: "wpidcwwbygzbpqmz" // Your email password or app-specific password
+      user: "letsdev.dev@gmail.com", // Your email address
+      pass: "ntrpbsbzfxzuamfo"
     }
   });
 
@@ -20,10 +20,9 @@ export class EmailService {
 	async sendEmail(email: string, verifyLink: string) {
 		try {
               const mailOptions = {
-                from: 'abhishek.househub@gmail.com', // Sender's email address
+                from: 'letsdev.dev@gmail.com', // Sender's email address
                 to: `${email}`, // Recipient's email address
                 subject: 'verify your email for letsdev',
-                body: '', // Email subject
                 html :`<!doctype html>
                 <html>
                 <head>
