@@ -54,8 +54,7 @@ class PostController {
       const postsWithImages: Array<any> = await postService.getImageUrls(posts);
       const finalPosts: Array<any> = await postService.getPostPreferences(postsWithImages);
       // remove unwanted info from post
-      delete finalPosts[0].file;
-      // const filteredPosts: any = await postService.filter(posts);
+      // const filteredPosts: any = await postService.filter(finalPosts);
       return res.json({ data: finalPosts });
     } catch (error) {
       next(error);
