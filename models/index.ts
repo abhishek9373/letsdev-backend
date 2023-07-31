@@ -8,6 +8,7 @@ import { FileSchema } from "../modules/file/models/File";
 import { PostSchema } from "../modules/post/models/Post";
 import { PostPreferenceSchema } from "../modules/post/models/PostPreferences";
 import { EmailSession as EmailSessionSchema } from "../modules/user/models/EmailSession";
+import { UserPostInteractionsSchema } from "../modules/post/models/UserPostInteractions";
 
 export const schemas: any  = {
   // list of all schemas
@@ -17,7 +18,8 @@ export const schemas: any  = {
   File: FileSchema,
   Post: PostSchema,
   PostPreference: PostPreferenceSchema,
-  EmailSession : EmailSessionSchema
+  EmailSession : EmailSessionSchema,
+  UserPostInteraction: UserPostInteractionsSchema
 };
 
 const models:any = {};
@@ -34,3 +36,4 @@ export const File = models.File;
 export const Post = models.Post;
 export const PostPreference = models.PostPreference;
 export const EmailSession = models.EmailSession;
+export const UserPostInteraction = models.UserPostInteraction;

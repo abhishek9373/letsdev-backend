@@ -16,9 +16,16 @@ const list = {
     }).unknown(false)
 }
 
+const likeDislike = {
+    params: Joi.object({
+        postId: Joi.custom(objectIdValidator).required(),
+    }).unknown(false)
+}
+
 export {
     create,
-    list
+    list,
+    likeDislike
 }
 
 
