@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { PostRequest } from "../../../interfaces/Post.interface";
-import { Post, PostPreference } from "../../../models";
+import { Post, PostComment, PostPreference } from "../../../models";
 import PostService from "../services/Post.service";
 import { FinalPosts, Post as PostInterface, PostWithImages, PostWithPreferences } from "../interfaces/Post.interface";
 import { NoRecordFoundError } from "../../../lib/errors";
+import { commentPipeline } from "../../../interfaces/Comment.interface";
 
 const postService = new PostService();
 
@@ -110,19 +111,58 @@ class PostController {
   // get post
   async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = req.user._id;
-      const postId: any = req.params.postId;
-      const posts: Array<PostInterface> = await postService.get({postId, userId});
+      const userId: string = req.user._id;
+      const postId: string = req.params.postId;
+      const posts: Array<PostInterface> = await postService.get({postId});
       if(posts.length < 1){
         throw(new NoRecordFoundError("Post not found"));
       }
 
       // get imageUrls for post images
-      const postsWithImages: Array<any> = await postService.getImageUrls(posts);
-      const postsWithPreferences: Array<any> = await postService.getPostPreferences(postsWithImages);
+      const postsWithImages: Array<PostWithImages> = await postService.getImageUrls(posts);
+      const postsWithPreferences: Array<PostWithPreferences> = await postService.getPostPreferences(postsWithImages);
       // get userPostInteraction Matrix
-      const finalPosts: Array<any> = await postService.userPostInteraction(postsWithPreferences, userId);
-      res.status(200).json({ data: finalPosts[0] })
+      const finalPosts: Array<FinalPosts> = await postService.userPostInteraction(postsWithPreferences, userId);
+      res.status(200).json({ data: finalPosts[0] });
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+     // create a comment
+     async createComment(req: Request, res: Response, next: NextFunction) {
+      try {
+        const userId = req.user._id;
+        const postId: string = req.params.postId;
+        const text: string = req.body.text;
+
+        const newComment = new PostComment({
+          text, postId, userId
+        });
+        const comment = await newComment.save();
+        delete comment.updatedAt;
+        delete comment.postId;
+        delete comment.userId;
+        // add necessary info
+        const interaction = { isliked: false, isdisliked: false };
+        const user = { name: req.user.name, _id: req.user._id };
+        res.status(200).json({ data: { _id: comment._id, text: comment.text, createdAt: comment.createAt, likes: comment.likes, dislikes: comment.dislikes, interaction, user } });
+      } catch (error) {
+        throw (error);
+      }
+    }
+
+   // get comments
+   async listComments(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user._id;
+      const postId: string = req.params.postId;
+      const page: any = req.query.page;
+      
+      const comments: Array<commentPipeline>  = await postService.listComments(postId, page);
+      // attach postpreferences
+      const commentsWithPreferences = await postService.commentInteraction(comments, userId);
+      res.status(200).json({ data: commentsWithPreferences });
     } catch (error) {
       throw (error);
     }

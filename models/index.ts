@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, model } from "mongoose";
 
 // import all schemas here
 import { userSchema } from "../modules/user/models/User";
@@ -9,6 +9,8 @@ import { PostSchema } from "../modules/post/models/Post";
 import { PostPreferenceSchema } from "../modules/post/models/PostPreferences";
 import { EmailSession as EmailSessionSchema } from "../modules/user/models/EmailSession";
 import { UserPostInteractionsSchema } from "../modules/post/models/UserPostInteractions";
+import { PostCommentsSchema } from "../modules/post/models/PostComments";
+import { UserCommentInteractionsSchema } from "../modules/post/models/UserCommentInteraction";
 
 export const schemas: any  = {
   // list of all schemas
@@ -19,7 +21,9 @@ export const schemas: any  = {
   Post: PostSchema,
   PostPreference: PostPreferenceSchema,
   EmailSession : EmailSessionSchema,
-  UserPostInteraction: UserPostInteractionsSchema
+  UserPostInteraction: UserPostInteractionsSchema,
+  PostComment: PostCommentsSchema,
+  UserCommentInteraction: UserCommentInteractionsSchema
 };
 
 const models:any = {};
@@ -37,3 +41,5 @@ export const Post = models.Post;
 export const PostPreference = models.PostPreference;
 export const EmailSession = models.EmailSession;
 export const UserPostInteraction = models.UserPostInteraction;
+export const PostComment = models.PostComment;
+export const UserCommentInteraction = models.UserCommentInteraction;
