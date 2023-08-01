@@ -22,10 +22,30 @@ const likeDislike = {
     }).unknown(false)
 }
 
+const listComments = {
+    params: Joi.object({
+        postId: Joi.custom(objectIdValidator).required(),
+    }).unknown(false),
+    query: Joi.object({
+        page: Joi.number().required()
+    }).unknown(false)
+}
+
+const createComment = {
+    params: Joi.object({
+        postId: Joi.custom(objectIdValidator).required(),
+    }).unknown(false),
+    body: Joi.object({
+        text: Joi.string().required()
+    })
+}
+
 export {
     create,
     list,
-    likeDislike
+    likeDislike,
+    createComment,
+    listComments
 }
 
 
