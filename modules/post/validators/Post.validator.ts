@@ -22,6 +22,12 @@ const likeDislike = {
     }).unknown(false)
 }
 
+const likeDislikeComments = {
+    params: Joi.object({
+        commentId: Joi.custom(objectIdValidator).required(),
+    }).unknown(false)
+}
+
 const listComments = {
     params: Joi.object({
         postId: Joi.custom(objectIdValidator).required(),
@@ -45,7 +51,8 @@ export {
     list,
     likeDislike,
     createComment,
-    listComments
+    listComments,
+    likeDislikeComments
 }
 
 

@@ -1,7 +1,7 @@
 import { commentPipeline, commentsWithInteractions } from "../../../interfaces/Comment.interface";
 import { PostListQuery } from "../../../interfaces/Common.interface";
 import nconf from "../../../lib/config";
-import { Post, PostComment, PostPreference, UserPostInteraction, schemas } from "../../../models";
+import { Post, PostComment, PostPreference, UserCommentInteraction, UserPostInteraction, schemas } from "../../../models";
 import FileService from "../../file/services/File.service";
 import { FinalPosts, Post as PostInterface, PostWithImages, PostWithPreferences, Post_Interaction_Matrix } from "../interfaces/Post.interface";
 import { ObjectId } from "mongodb";
@@ -160,6 +160,47 @@ class PostService {
     }
   }
 
+  // same functions for post comments
+  async likeComment({ commentId, userId }: { commentId: string, userId: string }) {
+    try {
+      await UserCommentInteraction.findOneAndUpdate({ commentId, userId, type: "like" }, { commentId, userId, type: "like" }, { upsert: true }).lean();
+      await PostComment.findOneAndUpdate({ _id: commentId }, { $inc: { likes: 1 } }).lean();
+      return true;
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async dislikeComment({ commentId, userId }: { commentId: string, userId: string }) {
+    try {
+      await UserCommentInteraction.findOneAndUpdate({ commentId, userId, type: "dislike" }, { commentId, userId, type: "dislike" }, { upsert: true }).lean();
+      await PostComment.findOneAndUpdate({ _id: commentId }, { $inc: { dislikes: 1 } }).lean();
+      return true;
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async rmCommentLike({ commentId, userId }: { commentId: string, userId: string }) {
+    try {
+      await UserCommentInteraction.deleteOne({ commentId, userId, type: "like" });
+      await PostComment.findOneAndUpdate({ _id: commentId }, { $inc: { likes: -1 } }).lean();
+      return true;
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async rmCommentDislike({ commentId, userId }: { commentId: string, userId: string }) {
+    try {
+      await UserCommentInteraction.deleteOne({ commentId, userId, type: "dislike" });
+      await PostComment.findOneAndUpdate({ commentId }, { $inc: { dislikes: -1 } });
+      return true;
+    } catch (error) {
+      throw (error);
+    }
+  }
+
   async userPostInteraction(postsWithPreferences: Array<any>, userId: string) {
     try {
       const postsWithUserInteractions: Array<FinalPosts> = await Promise.all(postsWithPreferences.map(async (post) => {
@@ -302,8 +343,8 @@ class PostService {
     try {
       const newComments: Array<commentsWithInteractions> = await Promise.all(comments.map( async (comment: any)=>{
         const interaction = { isliked: false, isdisliked: false };
-        interaction.isliked = await UserPostInteraction.findOne({ _id: new ObjectId(comment._id), userId, type : "like" }, { _id: 1 }).lean() ? true : false;
-        interaction.isdisliked = await UserPostInteraction.findOne({ _id: new ObjectId(comment._id), userId, type : "dislike" }, { _id: 1 }).lean() ? true : false;
+        interaction.isliked = await UserCommentInteraction.findOne({ commentId: new ObjectId(comment._id), userId, type : "like" }, { _id: 1 }).lean() ? true : false;
+        interaction.isdisliked = await UserCommentInteraction.findOne({ commentId: new ObjectId(comment._id), userId, type : "dislike" }, { _id: 1 }).lean() ? true : false;
         comment.interaction = interaction;
         return comment;
       }));

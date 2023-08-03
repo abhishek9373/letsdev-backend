@@ -108,6 +108,51 @@ class PostController {
     }
   }
 
+  // same for comment 
+  async likeComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user._id;
+      const commentId: string = req.params.commentId;
+      await postService.likeComment({ commentId, userId });
+      return res.status(204).json({ data: true });
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async dislikeComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user._id;
+      const commentId: string = req.params.commentId;
+      await postService.dislikeComment({ commentId, userId });
+      return res.status(204).json({ data: true });
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async rmCommentLike(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user._id;
+      const commentId: any = req.params.commentId;
+      await postService.rmCommentLike({ commentId, userId });
+      return res.status(204).json({ data: true });
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  async rmCommentDislike(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user._id;
+      const commentId: any = req.params.commentId;
+      await postService.rmCommentDislike({ commentId, userId });
+      return res.status(204).json({ data: true });
+    } catch (error) {
+      throw (error);
+    }
+  }
+
   // get post
   async get(req: Request, res: Response, next: NextFunction) {
     try {

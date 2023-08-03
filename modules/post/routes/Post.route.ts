@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import PostController from '../controllers/Post.controller';
 import { ValidatorMiddleware } from '../../../middlewares';
-import { create, createComment, likeDislike, list, listComments } from '../validators/Post.validator';
+import { create, createComment, likeDislike, likeDislikeComments, list, listComments } from '../validators/Post.validator';
 
 const router: Router = Router();
 const postController = new PostController();
@@ -29,6 +29,16 @@ router.route('/:postId/like')
 router.route('/:postId/dislike')
     .patch(ValidatorMiddleware(likeDislike), postController.dislike)
     .delete(ValidatorMiddleware(likeDislike), postController.rmDislike)
+
+// route for like post
+router.route('/comment/:commentId/like')
+    .patch(ValidatorMiddleware(likeDislikeComments), postController.likeComment)
+    .delete(ValidatorMiddleware(likeDislikeComments), postController.rmCommentLike)
+
+// route for dislikePosts
+router.route('/comment/:commentId/dislike')
+    .patch(ValidatorMiddleware(likeDislikeComments), postController.dislikeComment)
+    .delete(ValidatorMiddleware(likeDislikeComments), postController.rmCommentDislike)
 
 router.route('/:postId/comments')
     .get(ValidatorMiddleware(listComments), postController.listComments)
