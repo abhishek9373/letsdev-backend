@@ -1,17 +1,24 @@
 import Joi from "joi";
 import { objectIdValidator } from "../../../lib/validators/validators.lib";
-
+// fileId: Joi.custom(objectIdValidator).required()
 const create = {
     body: Joi.object({
-        fileId: Joi.custom(objectIdValidator).required(),
-        title: Joi.string().required(),
-        body: Joi.string().required(),
-        tags: [Joi.string()]
+        title: Joi.string().required().min(2).max(200),
+        output: Joi.string().required(),
+        description: Joi.string().required(),
+        code: Joi.string().required(),
+    }).unknown(false)
+}
+
+const list = {
+    query: Joi.object({
+        page: Joi.number().required().min(0)
     }).unknown(false)
 }
 
 export {
     create,
+    list
 }
 
 

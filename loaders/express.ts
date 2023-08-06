@@ -5,13 +5,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import { IPAddressMiddleware, HeadersMiddleware } from "../middlewares";
-import { AuthenticationModule, FileModule, PostModule, UserModule } from "../modules";
+import { AuthenticationModule, FileModule, PostModule, UserModule, QuestionModule } from "../modules";
 import { BadRequestParameterError } from "../lib/errors";
-import UserMiddleware from '../middlewares/User.middleware'
 import session from "express-session";
 import passport from 'passport';
 import { passportJwtStrategy } from '../lib/authentication/jwt/passpost-jwt-strategy';
-
 
 dotenv.config();
 
@@ -74,6 +72,12 @@ app.use("/post",
     passport.authenticate('jwt'),
     PostModule
 );
+
+app.use("/question",
+    passport.authenticate('jwt'),
+    QuestionModule
+);
+
 
 app.use("/throwError", (req: Request, res: Response, next: NextFunction) => {
     try {

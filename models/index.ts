@@ -11,6 +11,7 @@ import { EmailSession as EmailSessionSchema } from "../modules/user/models/Email
 import { UserPostInteractionsSchema } from "../modules/post/models/UserPostInteractions";
 import { PostCommentsSchema } from "../modules/post/models/PostComments";
 import { UserCommentInteractionsSchema } from "../modules/post/models/UserCommentInteraction";
+import { QuestionSchema } from "../modules/question/models/question.model";
 
 export const schemas: any  = {
   // list of all schemas
@@ -23,7 +24,8 @@ export const schemas: any  = {
   EmailSession : EmailSessionSchema,
   UserPostInteraction: UserPostInteractionsSchema,
   PostComment: PostCommentsSchema,
-  UserCommentInteraction: UserCommentInteractionsSchema
+  UserCommentInteraction: UserCommentInteractionsSchema,
+  Question: QuestionSchema
 };
 
 const models:any = {};
@@ -43,3 +45,4 @@ export const EmailSession = models.EmailSession;
 export const UserPostInteraction = models.UserPostInteraction;
 export const PostComment = models.PostComment;
 export const UserCommentInteraction = models.UserCommentInteraction;
+export const Question = models.Question;
