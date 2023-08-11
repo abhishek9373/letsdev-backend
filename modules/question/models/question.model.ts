@@ -21,6 +21,18 @@ const QuestionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Question",
         required: true
+    },
+    views: {
+      type: Number,
+      default: 0
+    },
+    votes: {
+      type: Number,
+      default: 0
+    },
+    answers: {
+      type: Number,
+      default: 0
     }
 },
   {
