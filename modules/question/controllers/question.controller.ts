@@ -27,17 +27,33 @@ class QuestionController {
   }
 
   /**
- * List all samples.
- *
- * @param {Object} req The request object.
- * @param {Object} res The response object.
- * @param {Object} next The response object.
- */
+  * List all samples.
+  * @param {Object} req The request object.
+  * @param {Object} res The response object.
+  * @param {Object} next The response object.
+  */
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const page: any = req.query.page;
       const questions: Array<QustionInterface> = await questionService.list(page);
       res.status(200).json({ data: questions });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+  * List all samples.
+  * @param {Object} req The request object.
+  * @param {Object} res The response object.
+  * @param {Object} next The response object.
+  */
+  async get(req: Request, res: Response, next: NextFunction) {
+    try {
+      const questionId: string = req.params.questionId;
+      const userId: string = req.user._id;
+      const question: Array<QustionInterface> = await questionService.get(questionId, userId);
+      res.status(200).json({ data: question});
     } catch (error) {
       next(error);
     }

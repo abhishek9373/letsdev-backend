@@ -16,9 +16,16 @@ const list = {
     }).unknown(false)
 }
 
+const get = {
+    params: Joi.object({
+        questionId: Joi.custom(objectIdValidator).required() 
+    }).unknown(false)
+}
+
 export {
     create,
-    list
+    list,
+    get
 }
 
 
