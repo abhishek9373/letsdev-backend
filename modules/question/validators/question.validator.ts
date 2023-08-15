@@ -22,10 +22,21 @@ const get = {
     }).unknown(false)
 }
 
+const createAnswer = {
+    params: Joi.object({
+        questionId: Joi.custom(objectIdValidator).required()
+    }).unknown(false),
+    body: Joi.object({
+        description: Joi.string().required(),
+        code: Joi.string().required()
+    }).unknown(false)
+}
+
 export {
     create,
     list,
-    get
+    get,
+    createAnswer
 }
 
 

@@ -12,6 +12,7 @@ import { UserPostInteractionsSchema } from "../modules/post/models/UserPostInter
 import { PostCommentsSchema } from "../modules/post/models/PostComments";
 import { UserCommentInteractionsSchema } from "../modules/post/models/UserCommentInteraction";
 import { QuestionSchema } from "../modules/question/models/question.model";
+import { AnswerSchema } from "../modules/question/models/answer.model";
 
 export const schemas: any  = {
   // list of all schemas
@@ -25,7 +26,8 @@ export const schemas: any  = {
   UserPostInteraction: UserPostInteractionsSchema,
   PostComment: PostCommentsSchema,
   UserCommentInteraction: UserCommentInteractionsSchema,
-  Question: QuestionSchema
+  Question: QuestionSchema,
+  Answer: AnswerSchema
 };
 
 const models:any = {};
@@ -46,3 +48,4 @@ export const UserPostInteraction = models.UserPostInteraction;
 export const PostComment = models.PostComment;
 export const UserCommentInteraction = models.UserCommentInteraction;
 export const Question = models.Question;
+export const Answer = models.Answer;

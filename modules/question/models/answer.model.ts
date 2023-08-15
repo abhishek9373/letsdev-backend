@@ -5,7 +5,18 @@ const AnswerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    code: {
+      type: String,
+      required: true
+    }
 },
   {
     strict: false,

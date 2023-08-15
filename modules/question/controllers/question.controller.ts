@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Question } from "../../../models";
+import { Answer, Question } from "../../../models";
 import QuestionService from "../services/question.service";
 import { QustionInterface } from "../interfaces/question.interface";
 
@@ -58,6 +58,31 @@ class QuestionController {
       next(error);
     }
   }
+
+  /**
+  * create answer for question
+  * @param {Object} req The request object.
+  * @param {Object} res The response object.
+  * @param {Object} next The response object.
+  */
+    async createAnswer(req: Request, res: Response, next: NextFunction) {
+      try {
+        const description: string = req.body.description;
+        const code: string = req.body.code;
+        const questionId: string = req.params.questionId;
+        const userId: string = req.user._id;
+        const answer = new Answer({
+          questionId,
+          userId,
+          description,
+          code
+        });
+        await answer.save();
+        res.status(201).json({ data: true });
+      } catch (error) {
+        next(error);
+      }
+    }
 }
 
 export default QuestionController;

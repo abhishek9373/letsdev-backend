@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ValidatorMiddleware } from '../../../middlewares';
-import { create, get, list } from '../validators/question.validator';
+import { create, createAnswer, get, list } from '../validators/question.validator';
 import QuestionController from '../controllers/question.controller';
 
 const router: Router = Router();
@@ -18,5 +18,8 @@ router.route('/')
 
 router.route('/:questionId')
     .get(ValidatorMiddleware(get), questionController.get)
+
+router.route('/:questionId/answer')
+    .post(ValidatorMiddleware(createAnswer), questionController.createAnswer)
 
 export default router;
