@@ -17,6 +17,14 @@ export const userSchema: Mongoose.Schema = new Mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    stars: {
+        type: Number,
+        default: 0
+    },
+    profileViews: {
+        type: Number,
+        default: 0
     }
 },
     {
