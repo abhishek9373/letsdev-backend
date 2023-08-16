@@ -16,6 +16,10 @@ const AnswerSchema = new mongoose.Schema({
     code: {
       type: String,
       required: true
+    },
+    votes: { 
+      type: Number,
+      default: 0
     }
 },
   {

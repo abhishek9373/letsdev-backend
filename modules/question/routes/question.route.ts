@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ValidatorMiddleware } from '../../../middlewares';
-import { create, createAnswer, get, list } from '../validators/question.validator';
+import { create, createAnswer, get, list, listAnswers } from '../validators/question.validator';
 import QuestionController from '../controllers/question.controller';
 
 const router: Router = Router();
@@ -20,6 +20,7 @@ router.route('/:questionId')
     .get(ValidatorMiddleware(get), questionController.get)
 
 router.route('/:questionId/answer')
+    .get(ValidatorMiddleware(listAnswers), questionController.listAnswers)
     .post(ValidatorMiddleware(createAnswer), questionController.createAnswer)
 
 export default router;

@@ -28,7 +28,13 @@ const createAnswer = {
     }).unknown(false),
     body: Joi.object({
         description: Joi.string().required(),
-        code: Joi.string().required()
+        code: Joi.string()
+    }).unknown(false)
+}
+
+const listAnswers = {
+    query: Joi.object({
+        page: Joi.number().required().min(0)
     }).unknown(false)
 }
 
@@ -36,7 +42,8 @@ export {
     create,
     list,
     get,
-    createAnswer
+    createAnswer,
+    listAnswers
 }
 
 
