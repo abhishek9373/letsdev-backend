@@ -12,4 +12,6 @@ export interface QustionInterface{
 interface User{
     name :string;
     _id: string,
+    stars: number,
+    profileViews: number
 }

@@ -33,7 +33,7 @@ class QuestionService {
 
       // project only required fields
       pipeline.push({
-        $project: { "title": 1, "output": 1, "code": 1, "createdAt": 1, "description": 1, 'user.name': 1, "user._id": 1 }
+        $project: { "title": 1, "output": 1, "code": 1, "createdAt": 1, "description": 1, 'user.name': 1, "user._id": 1, "user.stars": 1, "user.profileViews": 1 }
       })
 
       pipeline.push({
