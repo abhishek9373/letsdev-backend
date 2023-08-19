@@ -154,7 +154,7 @@ class QuestionService {
   }
 
   // service to increase veiwcount of question by one
-  async incAnsCount(questionId: string): Promise<boolean>{
+  async incViewCount(questionId: string): Promise<boolean>{
     try{
       await Question.updateOne({ _id: questionId }, { $inc: { views: 1 } });
       return true;
