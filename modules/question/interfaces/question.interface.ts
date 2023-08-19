@@ -7,6 +7,9 @@ export interface QustionInterface{
     code: string;
     user: User;
     createdAt: Date;
+    views: number,
+    votes: number,
+    answers: number
 }
 
 interface User{
@@ -14,4 +17,8 @@ interface User{
     _id: string,
     stars: number,
     profileViews: number
+}
+
+export interface QustionInterfaceWithPreference extends QustionInterface {
+    preferences: number
 }

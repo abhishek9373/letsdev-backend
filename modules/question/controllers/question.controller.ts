@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Answer, Question } from "../../../models";
+import { Answer, Question, UserQuestionInteraction } from "../../../models";
 import QuestionService from "../services/question.service";
 import { QustionInterface } from "../interfaces/question.interface";
 import { Answer as AnswerI } from "../interfaces/answer.interface";
@@ -36,8 +36,8 @@ class QuestionController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const page: any = req.query.page;
-      const questions: Array<QustionInterface> = await questionService.list(page);
-      res.status(200).json({ data: questions });
+      const questions: Array<QustionInterface> = await questionService.list(page);    
+    res.status(200).json({ data: questions });
     } catch (error) {
       next(error);
     }
@@ -54,11 +54,30 @@ class QuestionController {
       const questionId: string = req.params.questionId;
       const userId: string = req.user._id;
       const question: Array<QustionInterface> = await questionService.get(questionId, userId);
+      // get questionUserInteractions
+      const tmpQ: any = await UserQuestionInteraction.findOne({ userId, questionId }).lean();
+      const tmpFQ: any = { ...question[0], preferences: 0 };
+  
+      if(!tmpQ){
+          tmpFQ.preferences = 0;
+          return tmpFQ;
+      }
+  
+      if(tmpFQ){
+          if(tmpQ.type == 1){
+              tmpFQ.preferences = 1;
+          } else {
+              tmpFQ.preferences = 2;
+          }
+      }
+
       // get bootstrap answers
       const answers: Array<AnswerI> = await questionService.listAnswers(userId, 0, questionId);
+      // get userAnswerInteraction
+
       // increament question view count by one
       await questionService.incAnsCount(questionId);
-      res.status(200).json({ data: { answers, question } });
+      res.status(200).json({ data: { answers,  question: [{...tmpFQ }]} });
     } catch (error) {
       next(error);
     }
@@ -102,6 +121,42 @@ class QuestionController {
 
         const answerList: Array<AnswerI> = await questionService.listAnswers(userId, page, questionId);
         res.status(200).json({ data: answerList });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+  * create answer for question
+  * @param {Object} req The request object.
+  * @param {Object} res The response object.
+  * @param {Object} next The response object.
+  */
+  async upVote(req: Request, res: Response, next: NextFunction) {
+    try {
+        const userId: string = req.user._id;
+        const questionId: string = req.params.questionId;
+        await UserQuestionInteraction.findOneAndUpdate({ userId, questionId }, { userId, questionId, type: 1 }, { upsert: true });
+        await Question.updateOne({ _id: questionId }, { $inc: { votes: 1 } });
+        res.status(200).json({ data: true });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+  * create answer for question
+  * @param {Object} req The request object.
+  * @param {Object} res The response object.
+  * @param {Object} next The response object.
+  */
+  async downVote(req: Request, res: Response, next: NextFunction) {
+    try {
+        const userId: string = req.user._id;
+        const questionId: string = req.params.questionId;
+        await UserQuestionInteraction.findOneAndUpdate({ userId, questionId }, { userId, questionId, type: 2 }, { upsert: true });
+        await Question.updateOne({ _id: questionId }, { $inc: { votes: -1 } });
+        res.status(200).json({ data: true });
     } catch (error) {
       next(error);
     }

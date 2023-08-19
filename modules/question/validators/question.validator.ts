@@ -38,12 +38,27 @@ const listAnswers = {
     }).unknown(false)
 }
 
+const vote = {
+    params: Joi.object({
+        questionId: Joi.custom(objectIdValidator).required(),
+    }).unknown(false)
+}
+
+const voteAnswer = {
+    params: Joi.object({
+        questionId: Joi.custom(objectIdValidator).required(),
+        answerId: Joi.custom(objectIdValidator).required()
+    }).unknown(false)
+}
+
 export {
     create,
     list,
     get,
     createAnswer,
-    listAnswers
+    listAnswers,
+    vote,
+    voteAnswer
 }
 
 
