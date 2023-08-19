@@ -13,3 +13,7 @@ interface User{
     stars: number,
     profileViews: number
 }
+
+export interface FinalAnswerI extends Answer{
+    preferences: number
+}

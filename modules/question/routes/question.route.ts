@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ValidatorMiddleware } from '../../../middlewares';
-import { create, createAnswer, get, list, listAnswers, vote } from '../validators/question.validator';
+import { create, createAnswer, get, list, listAnswers, vote, voteAnswer } from '../validators/question.validator';
 import QuestionController from '../controllers/question.controller';
 
 const router: Router = Router();
@@ -29,10 +29,10 @@ router.route('/:questionId/upvote')
 router.route('/:questionId/downvote')
     .patch(ValidatorMiddleware(vote), questionController.downVote)
 
-router.route('/:questionId/answer/answerId/upvote')
-    .patch(ValidatorMiddleware(vote), questionController.upVote)
+router.route('/:questionId/answer/:answerId/upvote')
+    .patch(ValidatorMiddleware(voteAnswer), questionController.upVoteAnswer)
 
-router.route('/:questionId/answer/answerId/downvote')
-    .patch(ValidatorMiddleware(vote), questionController.downVote)
+router.route('/:questionId/answer/:answerId/downvote')
+    .patch(ValidatorMiddleware(voteAnswer), questionController.downVoteAnswer)
 
 export default router;
