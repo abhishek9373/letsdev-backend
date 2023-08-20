@@ -88,7 +88,6 @@ class QuestionController {
       })
       const finalAnswersResolved: FinalAnswerI[] = await Promise.all(finalAnswers);
       // increament question view count by one
-      console.log(finalAnswersResolved)
       await questionService.incViewCount(questionId);
       res.status(200).json({ data: { answers: finalAnswersResolved, question: [{ ...tmpFQ }] } });
     } catch (error) {
