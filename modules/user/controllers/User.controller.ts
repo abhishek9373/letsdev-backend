@@ -26,7 +26,13 @@ export default class userController extends UserService {
     async getUser(req: Request, res: Response, next: NextFunction) {
         try {
             const userId: any = req.user._id;
-            const user: UserI = await User.findById(userId, { createdAt: 0, updatedAt: 0, password: 0 }).lean();
+            const getUserId: any = req.query.userId;
+            let user!: UserI
+            if(getUserId){
+                user = await User.findById(getUserId, { createdAt: 0, updatedAt: 0, password: 0, email: 0 }).lean();
+            }else{
+                user = await User.findById(userId, { createdAt: 0, updatedAt: 0, password: 0 }).lean();
+            }
             if(!user){
                 return next(new NoRecordFoundError("user not found"));
             }
