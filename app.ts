@@ -5,19 +5,29 @@ import {
 
 import http from 'http';
 import { Server } from 'socket.io';
+
+
 // socket configuration
 const server = new http.Server(expressApp);
 export const io = new Server(server);
 
-io.on('connection', (socket) => {
-    console.log('A user connected');
+// create a instance of chatcontroller to listen for chat events
+import ChatController from './modules/chat/controllers/Chat.controller'
+const chatController: ChatController = new ChatController();
 
-    // Handle other socket events here
+// create a Redis database connection
+import Redis from './modules/chat/services/Redis.service';
+const redis: Redis = new Redis();
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
+// io.on('connection', (socket) => {
+//     console.log('A user connected');
+
+//     // Handle other socket events here
+
+//     socket.on('disconnect', () => {
+//         console.log('User disconnected');
+//     });
+// });
 
 //load various app components
 // import https from 'https';
