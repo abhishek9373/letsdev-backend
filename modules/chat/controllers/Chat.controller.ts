@@ -1,7 +1,6 @@
 import { Socket } from "socket.io";
 import { io } from "../../../app";
-
-import { client } from "../../../loaders/mongoose";
+import { pool } from "../../../loaders/mongoose";
 
 class ChatController {
 
@@ -11,6 +10,8 @@ class ChatController {
     
     async ListenForChats(): Promise<void>{
         try{
+            console.log("➡️ connecting to Neon Postgres 🎉🎉");
+            await pool.connect();
             console.log("➡️ started loading socket service 🎉🎉");
             io.on('connection', (socket: Socket)=>{
                 socket.on('disconnect', ()=>{

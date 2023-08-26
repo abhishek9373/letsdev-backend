@@ -1,11 +1,29 @@
 import mongoose from 'mongoose';
 import config from '../lib/config/index';
-import { Client } from 'pg'
+import { Pool } from 'pg';
 
-const dbDetails = config.get('postgres');
-export const client = new Client({
-    ...dbDetails
+const connectionString: string = config.get('psqlConString');
+// for cloude database
+export const pool = new Pool({
+    connectionString: connectionString,
+    ssl: {
+        rejectUnauthorized: true
+    }
 });
+
+// pool.connect().then(client => {
+//         console.log('Connected to PostgreSQL database');
+//         client.release();
+//     })
+//     .catch(err => {
+//         console.error('Error connecting to PostgreSQL database', err);
+//     });
+
+//   for local database
+// const dbDetails = config.get('postgres');
+// export const client = new Client({
+//     ...dbDetails
+// });
 
 export default async function connectToDatabase() {
     try {
@@ -19,10 +37,5 @@ export default async function connectToDatabase() {
         console.log(`❌  Failed: Error establishing database connection`);
         console.error(error);
         process.exit(1);
-    }
-    try{
-        client.connect();
-    }catch(error: any){
-        throw(error);
     }
 }
