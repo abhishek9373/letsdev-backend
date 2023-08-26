@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import config from '../lib/config/index';
-import { Client, Pool } from 'pg';
+import { Client } from 'pg';
 
-const connectionString: string = config.get('psqlConString');
+// const connectionString: string = config.get('psqlConString');
 // for cloude database
 // export const pool = new Pool({
 //     connectionString: connectionString,
@@ -18,10 +18,9 @@ const connectionString: string = config.get('psqlConString');
 //     });
 
 //   for local database
-const dbDetails = config.get('postgres');
+const dbDetails = config.get('postgresLocal');
 export const client: Client = new Client({
-    ...dbDetails,
-    ssl: true
+    ...dbDetails
 });
 
 export default async function connectToDatabase() {
