@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import config from '../lib/config/index';
+import { Client } from 'pg'
+
+const dbDetails = config.get('postgres');
+export const client = new Client({
+    ...dbDetails
+});
 
 export default async function connectToDatabase() {
     try {
@@ -13,5 +19,10 @@ export default async function connectToDatabase() {
         console.log(`❌  Failed: Error establishing database connection`);
         console.error(error);
         process.exit(1);
+    }
+    try{
+        client.connect();
+    }catch(error: any){
+        throw(error);
     }
 }

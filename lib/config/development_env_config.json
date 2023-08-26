@@ -38,5 +38,12 @@
   "platFormEmail":{
     "email":"letsdev.dev@gmail.com",
     "pass":"ntrpbsbzfxzuamfo"
+  },
+  "postgres": {
+    "host": "localhost",
+    "user": "postgres",
+    "port": 5432,
+    "password": "12345678",
+    "database": "postgres"
   }
 }
