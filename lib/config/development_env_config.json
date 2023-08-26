@@ -28,18 +28,25 @@
       "http://192.168.0.10:3000"
     ]
   },
-  "firebaseAdminSdk":{
-    "databaseURL" : "https://letsdev-3b8fc-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "bucketURL" : "gs://letsdev-3b8fc.appspot.com"
+  "firebaseAdminSdk": {
+    "databaseURL": "https://letsdev-3b8fc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "bucketURL": "gs://letsdev-3b8fc.appspot.com"
   },
-  "pagination":{
+  "pagination": {
     "limit": 10
   },
-  "platFormEmail":{
-    "email":"letsdev.dev@gmail.com",
-    "pass":"ntrpbsbzfxzuamfo"
+  "platFormEmail": {
+    "email": "letsdev.dev@gmail.com",
+    "pass": "ntrpbsbzfxzuamfo"
   },
   "postgres": {
+    "host": "ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech",
+    "user": "abhishekgund500",
+    "port": 5432,
+    "password": "kqQboG3HNuM7",
+    "database": "letsdev-development"
+  },
+  "postgresLocal": {
     "host": "localhost",
     "user": "postgres",
     "port": 5432,
