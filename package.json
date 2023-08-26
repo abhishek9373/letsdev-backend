@@ -5,6 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "nodemon --exec ts-node app.ts --trace-depracation",
+    "development": "set NODE_ENV=developmentlocal && nodemon --exec ts-node app.ts --trace-depracation",
+    "production": "set NODE_ENV=production && nodemon --exec ts-node app.ts --trace-depracation",
     "build": "tsc"
   },
   "author": "Abhishek Gund",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
     "@types/express-session": "^1.17.7",
     "@types/helmet": "^4.0.0",

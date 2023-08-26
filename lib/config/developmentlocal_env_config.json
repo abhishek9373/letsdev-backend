@@ -1,0 +1,58 @@
+{
+    "express": {
+      "protocol": "http://",
+      "useFqdnForApis": false,
+      "ipAddress": "127.0.0.1",
+      "fqdn": "",
+      "port": 3008,
+      "apiUrl": "v1"
+    },
+    "database": {
+      "username": "Abhishek",
+      "password": "abhi0023",
+      "name": "letsdev-development",
+      "host": "@cluster0.nxevonu.mongodb.net",
+      "port": 27017,
+      "authSource": "admin",
+      "options": {
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true,
+        "useCreateIndex": true
+      }
+    },
+    "cors": {
+      "whitelistUrls": [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3000",
+        "http://192.168.0.10:3000"
+      ]
+    },
+    "firebaseAdminSdk": {
+      "databaseURL": "https://letsdev-3b8fc-default-rtdb.asia-southeast1.firebasedatabase.app",
+      "bucketURL": "gs://letsdev-3b8fc.appspot.com"
+    },
+    "pagination": {
+      "limit": 10
+    },
+    "platFormEmail": {
+      "email": "letsdev.dev@gmail.com",
+      "pass": "ntrpbsbzfxzuamfo"
+    },
+    "postgresNeon": {
+      "host": "ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech",
+      "user": "abhishekgund500",
+      "port": 5432,
+      "password": "kqQboG3HNuM7",
+      "database": "letsdev-development"
+    },
+    "postgresLocal": {
+      "host": "localhost",
+      "user": "postgres",
+      "port": 5432,
+      "database": "postgres",
+      "password":"12345678"
+    },
+    "psqlConString": "postgres://abhishekgund500:kqQboG3HNuM7@ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech/letsdev-development"
+  }
+  
