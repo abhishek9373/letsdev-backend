@@ -5,7 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import { IPAddressMiddleware, HeadersMiddleware } from "../middlewares";
-import { AuthenticationModule, FileModule, PostModule, UserModule, QuestionModule } from "../modules";
+import { AuthenticationModule, FileModule, PostModule, UserModule, QuestionModule, ChatModule } from "../modules";
 import { BadRequestParameterError } from "../lib/errors";
 import session from "express-session";
 import passport from 'passport';
@@ -76,6 +76,11 @@ app.use("/post",
 app.use("/question",
     passport.authenticate('jwt'),
     QuestionModule
+);
+
+app.use("/chat",
+    passport.authenticate('jwt'),
+    ChatModule
 );
 
 
