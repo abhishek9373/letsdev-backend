@@ -39,12 +39,19 @@
     "email": "letsdev.dev@gmail.com",
     "pass": "ntrpbsbzfxzuamfo"
   },
-  "postgres": {
+  "postgresNeon": {
     "host": "ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech",
     "user": "abhishekgund500",
     "port": 5432,
     "password": "kqQboG3HNuM7",
     "database": "letsdev-development"
+  },
+  "postgresVps": {
+    "host": "localhost",
+    "user": "postgres",
+    "port": 5432,
+    "password": "",
+    "database": "postgres"
   },
   "postgresLocal": {
     "host": "localhost",

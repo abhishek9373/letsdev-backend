@@ -18,7 +18,7 @@ import { Client } from 'pg';
 //     });
 
 //   for local database
-const dbDetails = config.get('postgresLocal');
+const dbDetails = config.get('postgresVps');
 export const client: Client = new Client({
     ...dbDetails
 });
