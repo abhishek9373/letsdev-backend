@@ -46,18 +46,10 @@
     "password": "kqQboG3HNuM7",
     "database": "letsdev-development"
   },
-  "postgresVps": {
-    "host": "localhost",
-    "user": "postgres",
-    "port": 5432,
-    "password": "",
-    "database": "postgres"
-  },
   "postgresLocal": {
     "host": "localhost",
     "user": "postgres",
     "port": 5432,
-    "password": "12345678",
     "database": "postgres"
   },
   "psqlConString": "postgres://abhishekgund500:kqQboG3HNuM7@ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech/letsdev-development"
