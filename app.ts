@@ -3,9 +3,25 @@ import {
     mongooseLoader
 } from './loaders';
 
+import http from 'http';
+import { Server } from 'socket.io';
+// socket configuration
+const server = new http.Server(expressApp);
+export const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Handle other socket events here
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
+
 //load various app components
-import https from 'https';
-import fs from 'fs';
+// import https from 'https';
+// import fs from 'fs';
 
 // load components
 console.log("➡️ Starting to load components in main app")
@@ -21,6 +37,7 @@ mongooseLoader();
 // get port from env else default to 3014
 const port: string = process.env.PORT || "3015";
 
-expressApp.listen(port, () =>{
-    console.log(`✅  Letsdev Service is listening on port ${port}.`)});
+server.listen(port, () => {
+    console.log(`✅  Letsdev Service is listening on port ${port}.`)
+});
 

@@ -29,6 +29,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "redis": "^4.6.7",
+    "socket.io": "^4.7.2",
     "ts-node": "^10.9.1",
     "uuid": "^9.0.0"
   },
@@ -44,6 +45,7 @@
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",
     "@types/pg": "^8.10.2",
+    "@types/socket.io": "^3.0.2",
     "@types/uuid": "^9.0.2"
   }
 }
