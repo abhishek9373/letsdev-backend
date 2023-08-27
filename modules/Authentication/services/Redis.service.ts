@@ -10,24 +10,22 @@ const client = redis.createClient();
 })();
 
 class Redis {
-  async find({ phone }:{phone:any}) {
+  async find({ userId }:{ userId: string }) {
     try {
-      const session = await client.get(`${phone}`);
+      const session = await client.get(userId);
       if(!session){
         return null;
       }
-      const sessionReturn = JSON.parse(session);
-      return sessionReturn;    
+      // const sessionReturn = JSON.parse(session);
+      return session;    
     } catch (error) {
       throw error;
     }
   }
 
-  async save({ phone, deviceInfo, country }:{phone:string, deviceInfo:any, country:string}) {
+  async save({ userId, socketId }:{ userId: string, socketId: string }) {
     try {
-      deviceInfo.country = country;
-      const sessionString = JSON.stringify(deviceInfo);
-      const session = await client.setEx(phone,90, sessionString,);
+      const session = await client.set(userId, socketId,);
       return { data: true };
     } catch (error) {
       throw error;

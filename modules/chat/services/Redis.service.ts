@@ -1,39 +1,59 @@
 import { createClient } from 'redis'
 const client = createClient({
-// @ts-ignore
+  // @ts-ignore
   host: "localhost",
   port: 6379,
 });
 (async () => {
-    console.log("➡️ Redis Connection Started 🎉🎉");
-    await client.connect();
-    console.log("➡️ Redis Connection Successful 🎉🎉");
+  console.log("➡️ Redis Connection Started 🎉🎉");
+  await client.connect();
+  console.log("➡️ Redis Connection Successful 🎉🎉");
 })();
 
 export default class Redis {
-    constructor(){ }
-//   async find({ phone }) {
-//     try {
-//       const session = await client.get(`${phone}`);
-//       if(!session){
-//         return null;
-//       }
-//       const sessionReturn = JSON.parse(session);
-//       return sessionReturn;    
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
+  constructor() { }
+  async find({ userId }: { userId: string }) {
+    try {
+      const session = await client.get(userId);
+      if (!session) {
+        return null;
+      }
+      // const sessionReturn = JSON.parse(session);
+      return session;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-//   async save({ phone, deviceInfo, country }) {
-//     try {
-//       deviceInfo.country = country;
-//       const sessionString = JSON.stringify(deviceInfo);
-//       const session = await client.setEx(phone,90, sessionString,);
-//       return { data: true };
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
+  async save({ userId, socketId }: { userId: string, socketId: string }) {
+    try {
+      const session = await client.set(userId, socketId);
+      return { data: true };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async saveR({ userId, socketId }: { userId: string, socketId: string }) {
+    try {
+      const session = await client.set(socketId, userId);
+      return { data: true };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async delete({ userId }: { userId: string }) {
+    try {
+      const result = await client.del(userId);
+      if (result === 1) {
+        return { data: true };
+      } else {
+        return { data: false };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
