@@ -1,4 +1,3 @@
-import { Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { UnauthenticatedError } from "../lib/errors";
 import { readFileSync } from 'fs'
@@ -9,7 +8,7 @@ import { User } from "../models";
 const publicKey = readFileSync(__dirname + "/" + "pubjwt_key.pem", "utf8");
 export class SocketMiddlewares {
 
-    async authenticate(socket: Socket, next: (err?: ExtendedError | undefined) => void) {
+    async authenticate(socket: any, next: (err?: ExtendedError | undefined) => void) {
         try {
             const token: any = socket.handshake.query?.token;
             // implement token authentication
@@ -22,8 +21,8 @@ export class SocketMiddlewares {
                 if (!tokenPayload) {
                     return next(new UnauthenticatedError("invalid credetials"));
                 }
-                console.log(tokenPayload);
                 const user: UserI = await User.findById(tokenPayload.userId, { profileViews: 0, stars: 0, createdAt: 0, updatedAt: 0, password: 0 }).lean();
+                socket.user = user;
                 next();
             } catch (error: any) {
                 throw (error);

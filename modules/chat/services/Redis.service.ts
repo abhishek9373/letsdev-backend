@@ -9,9 +9,10 @@ const client = createClient();
 
 export default class Redis {
   constructor() { }
-  async find({ userId }: { userId: string }) {
+  async find({ socketId }: { socketId: string }) {
     try {
-      const session = await client.get(userId);
+      const socketid: string = socketId.toString();
+      const session = await client.get(socketid);
       if (!session) {
         return null;
       }
@@ -24,26 +25,21 @@ export default class Redis {
 
   async save({ userId, socketId }: { userId: string, socketId: string }) {
     try {
-      const session = await client.set(userId, socketId);
+      const userid: string = userId.toString();
+      const socketid: string = socketId.toString();
+      const session = await client.set(userid, socketid);
       return { data: true };
     } catch (error) {
       throw error;
     }
   }
 
-  async saveR({ userId, socketId }: { userId: string, socketId: string }) {
+  async delete(key: string) {
     try {
-      const session = await client.set(socketId, userId);
-      return { data: true };
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async delete({ userId }: { userId: string }) {
-    try {
-      const result = await client.del(userId);
+      const fkey: string = key.toString()
+      const result = await client.del(fkey);
       if (result === 1) {
+        console.log("deleted");
         return { data: true };
       } else {
         return { data: false };

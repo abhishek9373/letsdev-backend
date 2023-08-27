@@ -15,24 +15,19 @@ class ChatController {
     ListenForChats() {
         try {
 
-            io.on('connection', (socket: Socket) => {
+            io.on('connection', async (socket: any) => {
                 console.log("hello user connected");
                 try {
-                    // get id from user
-                    socket.emit("give-me-uid");
-                    socket.on("take-my-uid", (data: string) => {
-                        // map socketId to userId
-                        redis.save({ userId: data, socketId: socket.id });
-                        // map userId to socketId
-                        redis.saveR({ userId: data, socketId: socket.id });
-                    })
+                    // add entries for userId and socketId in redis
+                    await redis.save({ userId: socket.user._id, socketId: socket.id });
                 } catch (error) {
                     throw (error);
                 }
 
                 // remove entry from redis user gone offline
-                socket.on('disconnect', () => {
-                    // redis.delete()7
+                socket.on('disconnect', async () => {
+                    // delete the entry of userId and socketId in redis
+                    await redis.delete(socket.user._id);
                 });
             })
         } catch (error: any) {
