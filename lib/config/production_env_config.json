@@ -53,5 +53,9 @@
     "database": "postgres",
     "password":"letsdev@9373170518"
   },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  },
   "psqlConString": "postgres://abhishekgund500:kqQboG3HNuM7@ep-gentle-glade-81291108-pooler.ap-southeast-1.aws.neon.tech/letsdev-development"
 }
