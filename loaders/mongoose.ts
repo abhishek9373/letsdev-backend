@@ -2,21 +2,6 @@ import mongoose from 'mongoose';
 import config from '../lib/config/index';
 import { Client } from 'pg';
 
-// const connectionString: string = config.get('psqlConString');
-// for cloude database
-// export const pool = new Pool({
-//     connectionString: connectionString,
-//     ssl: true
-// });
-
-// pool.connect().then(client => {
-//         console.log('Connected to PostgreSQL database');
-//         client.release();
-//     })
-//     .catch(err => {
-//         console.error('Error connecting to PostgreSQL database', err);
-//     });
-
 //   for local database
 const dbDetails = config.get('postgresLocal');
 export const client: Client = new Client({

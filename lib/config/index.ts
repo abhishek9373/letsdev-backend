@@ -9,7 +9,7 @@ nconf.argv().env()
 // 3. Pick up the base configuration
 nconf.file(path.join(__dirname, './base_config.json'));
 // 4. Override arguments based on environment
-if(env == "devlopmentlocal "){
+if(env == "developmentlocal "){
     env = "developmentlocal";
 }
 if(env == "production "){
