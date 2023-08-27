@@ -12,13 +12,11 @@ class ChatController {
         this.ListenForChats();
     }
 
-    async ListenForChats(): Promise<void> {
+    ListenForChats() {
         try {
-            console.log("➡️ connecting to Postgres locally 🎉🎉");
-            console.log("➡️ started loading socket service 🎉🎉");
 
-            io.on('connection', async(socket: Socket) => {
-
+            io.on('connection', (socket: Socket) => {
+                console.log("hello user connected");
                 try {
                     // get id from user
                     socket.emit("give-me-uid");
