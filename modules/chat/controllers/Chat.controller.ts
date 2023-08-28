@@ -1,5 +1,5 @@
-import { Socket } from "socket.io";
 import { io } from "../../../app";
+import { IncomingChatModel, OutgoingChatModel } from "../../../interfaces/Chat.interface";
 import { client } from "../../../loaders/mongoose";
 import Redis from "../services/Redis.service";
 
@@ -14,12 +14,38 @@ class ChatController {
 
     ListenForChats() {
         try {
-
             io.on('connection', async (socket: any) => {
                 console.log("hello user connected");
                 try {
                     // add entries for userId and socketId in redis
                     await redis.save({ userId: socket.user._id, socketId: socket.id });
+                } catch (error) {
+                    throw (error);
+                }
+
+                try {
+                    // event to recieve chats from users
+                    socket.on("chat", async (data: IncomingChatModel) =>{
+                        // check if connection is available between reciever and sender
+                        const connection: boolean = await this.checkConnection(data.sid, data.rid);
+                        if(!connection){
+                            // create connection between sender and reciever
+                            await this.createConnection(data.sid, data.rid);
+                        }
+                        // save chat in database
+                        const chatId: number = await this.saveChat(data.sid, data.rid, data.text);
+                        // check if reciever is online
+                        let R_ScoketId: string | null = await redis.find({ userId: data.rid })
+                        if(!R_ScoketId){
+                            // user not online
+                            // save notification into database
+
+                        }else{
+                            // reciever is online send chat to reciever
+                            const chat: OutgoingChatModel = { id: chatId, sid: data.sid, rid: data.rid, text: data.text, updatedat: new Date, createdat: new Date };
+                            io.to(R_ScoketId).emit('chat-to-reciever', chat);
+                        }
+                    });
                 } catch (error) {
                     throw (error);
                 }
@@ -32,6 +58,48 @@ class ChatController {
             })
         } catch (error: any) {
             throw (error.message);
+        }
+    }
+
+    // create connection for sender and the reciever
+    async createConnection(sid: string, rid: string){
+        try{
+            const query: string = `insert into connections values('${sid}', '${rid}', 'active')`;
+            const res: any = await client.query(query);
+            if(res.rowCount == 1){
+                return true;
+            }
+            throw(Error("empty insertion or no insertion takes place"))
+        }catch(error){
+            throw(error);
+        }
+    }
+
+    // check if connection is available between sender and the reciever
+    async checkConnection(sid: string, rid: string){
+        try{
+            const query: string = `select id from connections where (u1 = '${sid}' and u2 = '${rid}') or (u1 = '${rid}' and u2 = '${sid}') limit 1`;
+            const res: any = await client.query(query);
+            if(res.rowCount == 1){
+                return true;
+            }
+            return false;
+        }catch(error){
+            throw(error);
+        }
+    }
+
+    // save chat into database
+    async saveChat(sid: string, rid: string, text: string){
+        try{
+            const query: string = `insert into messages values('${sid}','${rid}','${text}') RETURNING id`;
+            const res: any = await client.query(query);
+            if(res){
+                return res;
+            }
+            throw(Error("no record inserted!"));
+        }catch(error){
+            throw(error);
         }
     }
 }

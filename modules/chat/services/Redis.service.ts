@@ -9,10 +9,10 @@ const client = createClient();
 
 export default class Redis {
   constructor() { }
-  async find({ socketId }: { socketId: string }) {
+  async find({ userId }: { userId: string }) {
     try {
-      const socketid: string = socketId.toString();
-      const session = await client.get(socketid);
+      const userid: string = userId.toString();
+      const session = await client.get(userid);
       if (!session) {
         return null;
       }
