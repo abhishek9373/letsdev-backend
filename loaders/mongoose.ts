@@ -22,7 +22,9 @@ export default async function connectToDatabase() {
         process.exit(1);
     }
     try{
+        console.log(`➡️ Attempting postgres connection with database => ${dbDetails.database}`)
         client.connect();
+        console.log(`✅ connected to => ${dbDetails.database}`)
     }catch(error){
         throw(error);
     }
