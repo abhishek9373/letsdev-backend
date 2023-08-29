@@ -15,8 +15,8 @@ import { Server } from 'socket.io';
 const server = new http.Server(expressApp);
 export const io = new Server(server, {
     cors: {
-        origin: "https://devbuilder.tech",
-        methods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
+        origin: "*",
+        // methods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
     }
 });
 
