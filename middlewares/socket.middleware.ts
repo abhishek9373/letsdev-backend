@@ -10,9 +10,9 @@ export class SocketMiddlewares {
 
     async authenticate(socket: any, next: (err?: ExtendedError | undefined) => void) {
         try {
-            const token: any = socket.handshake.query?.token;
+            const token: string = socket.handshake.query?.token;
             // implement token authentication
-            if (!token) {
+            if (!token || token == 'null') {
                 return next(new UnauthenticatedError("credentials required"));
             }
             // decrypt token

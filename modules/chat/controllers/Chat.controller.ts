@@ -35,7 +35,7 @@ class ChatController {
                         // save chat in database
                         const chatId: number = await this.saveChat(data.sid, data.rid, data.text);
                         // check if reciever is online
-                        let R_ScoketId: string | null = await redis.find({ userId: data.rid })
+                        const R_ScoketId: any= await redis.find({ userId: data.rid })
                         if(!R_ScoketId){
                             // user not online
                             // save notification into database
@@ -95,7 +95,7 @@ class ChatController {
             const query: string = `insert into messages values('${sid}','${rid}','${text}') RETURNING id`;
             const res: any = await client.query(query);
             if(res){
-                return res;
+                return res.rows[0].id;
             }
             throw(Error("no record inserted!"));
         }catch(error){

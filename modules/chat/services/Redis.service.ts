@@ -13,10 +13,7 @@ export default class Redis {
     try {
       const userid: string = userId.toString();
       const session = await client.get(userid);
-      if (!session) {
-        return null;
-      }
-      // const sessionReturn = JSON.parse(session);
+
       return session;
     } catch (error) {
       throw error;
@@ -39,7 +36,6 @@ export default class Redis {
       const fkey: string = key.toString()
       const result = await client.del(fkey);
       if (result === 1) {
-        console.log("deleted");
         return { data: true };
       } else {
         return { data: false };
