@@ -16,7 +16,10 @@ class ChatController2 {
             const page_size: number = 50;
             // get chats from
             const query: string = `select * from messages where ((rid='${rid}' and sid = '${sid}') or (rid='${sid}' and sid = '${rid}')) and created_at < now() order by created_at desc limit ${page_size}`;
-            const response = await client.query(query);
+            const response: any = await client.query(query);
+            if(response.rows.length > 0){
+                response.rows.reverse();
+            }
             res.status(200).json({ data: response.rows.length > 0 ? response.rows : []});
         }catch(error){
             throw(error);
