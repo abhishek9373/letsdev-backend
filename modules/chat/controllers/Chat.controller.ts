@@ -33,7 +33,7 @@ class ChatController {
                             await this.createConnection(data.sid, data.rid);
                         }
                         // save chat in database
-                        const chatId: number = await this.saveChat(data.sid, data.rid, data.text);
+                        const outChat: any = await this.saveChat(data.sid, data.rid, data.text);
                         // check if reciever is online
                         const R_ScoketId: any= await redis.find({ userId: data.rid })
                         if(!R_ScoketId){
@@ -42,8 +42,8 @@ class ChatController {
 
                         }else{
                             // reciever is online send chat to reciever
-                            const chat: OutgoingChatModel = { id: chatId, sid: data.sid, rid: data.rid, text: data.text, updatedat: new Date, createdat: new Date };
-                            io.to(R_ScoketId).emit('chat-to-reciever', chat);
+                            // const chat: OutgoingChatModel = { ...outChat };
+                            io.to(R_ScoketId).emit('chat-to-reciever', outChat);
                         }
                     });
                 } catch (error) {
@@ -92,10 +92,10 @@ class ChatController {
     // save chat into database
     async saveChat(sid: string, rid: string, text: string){
         try{
-            const query: string = `insert into messages values('${sid}','${rid}','${text}') RETURNING id`;
+            const query: string = `insert into messages values('${sid}','${rid}','${text}') RETURNING id, sid, rid, text, created_at, updated_at`;
             const res: any = await client.query(query);
             if(res){
-                return res.rows[0].id;
+                return { id: res.rows[0].id, sid: res.rows[0].sid, rid: res.rows[0].rid, text: res.rows[0].text, created_at: res.rows[0].created_at, updated_at: res.rows[0].updated_at }
             }
             throw(Error("no record inserted!"));
         }catch(error){
