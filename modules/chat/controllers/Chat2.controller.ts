@@ -30,7 +30,7 @@ class ChatController2 {
     // load jobs
     async getJobs(req: Request, res: Response, next: NextFunction){
         try{
-            const browser = await puppeteer.launch({ headless: true });
+            const browser = await puppeteer.launch({ headless: true, executablePath: '/usr/bin/chromium-browser' });
             const page = await browser.newPage();
             await page.goto('https://internshala.com/jobs');
             const jobs = await page.evaluate(() => {
