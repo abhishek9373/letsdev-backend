@@ -14,7 +14,10 @@ router.use("*", (req: Request, res: Response, next: NextFunction) => {
 router.route('/')
     .get(ValidatorMiddleware(list), chatController.getChats)
 
-  router.route('/jobs')
+router.route('/connections')
+    .get(chatController.getConnections)
+
+router.route('/jobs')
     .get(chatController.getJobs)
 
 export default router;

@@ -10,3 +10,8 @@ export default interface UserI {
     _id: string,
     sessionId?: string
 }
+
+export interface User{
+    name: string,
+    _id: string
+}

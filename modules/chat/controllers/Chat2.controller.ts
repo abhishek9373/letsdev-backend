@@ -2,7 +2,10 @@
 import { NextFunction, Response, Request } from "express";
 import { client } from "../../../loaders/mongoose";
 import puppeteer from "puppeteer";
-
+import { QueryResult } from "pg";
+import { User } from "../../../interfaces/User.Interface";
+import ChatService from "../services/Chat.service";
+const chatService: ChatService = new ChatService();
 class ChatController2 {
 
     //get initial chats
@@ -25,7 +28,6 @@ class ChatController2 {
     }
 
     // load jobs
-
     async getJobs(req: Request, res: Response, next: NextFunction){
         try{
             const browser = await puppeteer.launch({ headless: true });
@@ -50,9 +52,64 @@ class ChatController2 {
             jobs.shift();
             return res.status(200).json({ data: jobs });
         }catch(error){
+            throw(error)
+        }
+    }
+
+    //get my connections
+    async getConnections(req: Request, res: Response, next: NextFunction){
+        try{
+            const userId:string = req.user._id;
+            const query = `WITH LastMessages AS (
+                SELECT DISTINCT ON (CASE 
+                                    WHEN sid = '${userId}' THEN rid 
+                                    ELSE sid 
+                                END) 
+                    CASE 
+                        WHEN sid = '${userId}' THEN rid 
+                        ELSE sid 
+                    END AS connection_id,
+                    text AS last_message,
+                    created_at AS last_message_date
+                FROM messages
+                WHERE sid = '${userId}' OR rid = '${userId}'
+                ORDER BY CASE 
+                            WHEN sid = '${userId}' THEN rid 
+                            ELSE sid 
+                        END, created_at DESC
+            )
+            SELECT connection_id, last_message, last_message_date
+            FROM LastMessages
+            ORDER BY last_message_date DESC;`
+            const response: QueryResult<RawConnection> = await client.query(query);
+            // now get connection info from mongodb database
+            const connections: Array<ConnectionsWithInfo> = await chatService.getConnectionDetails(response.rows);
+            // get notifications from all connections
+            const connectionsWithInfo: Array<finalConnections> = await chatService.getFinalConnections(userId, connections);
+            return res.status(200).json({ data: connectionsWithInfo });
+        }catch(error){
             throw(error);
         }
     }
 }
 
 export default ChatController2;
+
+
+
+
+// connections array interface
+
+export interface RawConnection{
+    connection_id: string,
+    last_message: string,
+    last_message_date: Date
+}
+
+export interface ConnectionsWithInfo extends RawConnection{
+    user: User
+}
+
+export interface finalConnections extends ConnectionsWithInfo{
+    notifications: number
+}
