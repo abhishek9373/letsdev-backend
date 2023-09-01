@@ -5,7 +5,7 @@ import { Sessions } from '../../../interfaces/Sessions';
 import { jsonwebtoken } from "../../../lib/authentication";
 import { EmailService } from '../../../Email.service';
 
-const emailService = new EmailService({ model: User});
+const emailService = new EmailService();
 const JsonWebToken = new jsonwebtoken();
 const tokenService = new TokenService();
 

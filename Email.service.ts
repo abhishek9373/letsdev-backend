@@ -1,4 +1,3 @@
-import { User } from "./models/index"
 import nodemailer from 'nodemailer'
 import nconf from "./lib/config";
 
@@ -12,8 +11,6 @@ const transporter = nodemailer.createTransport({
   });
 
 export class EmailService {
-    constructor({model = User}) { }
-
     /**
 	 * Service to store user location
 	 * @param userId
@@ -89,6 +86,39 @@ export class EmailService {
                 </body>
                 </html>
                 `
+              };
+
+              transporter.sendMail(mailOptions, (error: any, info: any) => {
+                if (error) {
+                  throw(error)
+                } else {
+                  return true;
+                }
+            });
+
+			return {data : true}
+		} catch (error) {
+		    throw (error);
+		}
+	}
+
+  async sendConnectionEmail(email: string, username: string, userId: string) {
+		try {
+              const mailOptions = {
+                from: configs.email,
+                to: `${email}`,
+                subject: `You have a new message from ${username}`,
+                text: `Hello,
+              
+              You have a new message from ${username} 
+              on Letsdev. 
+
+              click to Reply your new connection 
+
+              https://devbuilder.tech/chats/${userId}
+        
+              Best regards,
+              Your Platform Team`,
               };
 
               transporter.sendMail(mailOptions, (error: any, info: any) => {

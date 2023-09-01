@@ -2,7 +2,8 @@ import { io } from "../../../app";
 import { IncomingChatModel, OutgoingChatModel } from "../../../interfaces/Chat.interface";
 import { client } from "../../../loaders/mongoose";
 import Redis from "../services/Redis.service";
-
+import { EmailService } from "../../../Email.service";
+const emailService: EmailService = new EmailService();
 
 const redis: Redis = new Redis();
 
@@ -30,6 +31,9 @@ class ChatController {
                         if(!connection){
                             // create connection between sender and reciever
                             await this.createConnection(data.sid, data.rid);
+
+                            // send email to the reciever as its first time of message
+                            await emailService.sendConnectionEmail(socket.user.email, socket.user.name, socket.user._id);
                         }
                         // save chat in database
                         const outChat: any = await this.saveChat(data.sid, data.rid, data.text);
