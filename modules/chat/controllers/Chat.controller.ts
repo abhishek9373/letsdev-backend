@@ -15,7 +15,6 @@ class ChatController {
     ListenForChats() {
         try {
             io.on('connection', async (socket: any) => {
-                console.log("hello user connected");
                 try {
                     // add entries for userId and socketId in redis
                     await redis.save({ userId: socket.user._id, socketId: socket.id });
