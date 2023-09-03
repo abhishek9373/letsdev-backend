@@ -23,69 +23,26 @@ export class EmailService {
                 from: configs.email,
                 to: `${email}`,
                 subject: 'verify your email for letsdev',
-                html :`<!doctype html>
-                <html>
-                <head>
-                  <meta name="viewport" content="width=device-width" />
-                  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                  <title>verify your email to onboard</title>
-                  <style>
-                    /* Your existing styles */
+                text : `Dear ${email},
+
+                Thank you for signing up for Letsdev! We're excited to have you join our vibrant community of developers and tech enthusiasts. To complete your registration and enjoy all the amazing features our platform offers, we kindly ask you to verify your email address.
                 
-                    /* Centered image */
-                    .centered-image {
-                      text-align: center;
-                    }
+                Please follow the simple steps below to verify your email:
                 
-                    /* Button */
-                    .button {
-                      text-align: center;
-                      margin-top: 20px;
-                    }
-                    .button a {
-                      display: inline-block;
-                      background-color: #3498db;
-                      color: #fff;
-                      text-decoration: none;
-                      padding: 12px 25px;
-                      font-weight: bold;
-                      border-radius: 5px;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
-                    <tr>
-                      <td>&nbsp;</td>
-                      <td class="container">
-                        <div class="content">
-                          <table role="presentation" class="main">
-                            <tr>
-                              <td class="wrapper">
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                  <tr>
-                                    <td>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>
-                                      <!-- Button -->
-                                      <div class="button">
-                                        <a href="${verifyLink}">click to verify</a>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </table>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </body>
-                </html>
-                `
+                Click on the following link (or copy and paste it into your browser's address bar): ${verifyLink}
+                
+                Once the link opens, your email address will be automatically verified, and you'll gain full access to Letsdev.
+                
+                By verifying your email, you'll be able to:
+                
+                Create and engage with posts, discussions, and questions in our tech-savvy community.
+                Connect with fellow developers, collaborate on projects, and share knowledge.
+                Explore job listings tailored to your skills and preferences.
+                And much more!
+                If you did not register for Letsdev, please disregard this email. Your account will not be activated until you verify your email.
+                Best regards,
+
+                Letsdev Team`
               };
 
               transporter.sendMail(mailOptions, (error: any, info: any) => {
