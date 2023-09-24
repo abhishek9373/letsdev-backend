@@ -159,8 +159,8 @@ class PostController {
       const userId: string = req.user._id;
       const postId: string = req.params.postId;
       const posts: Array<PostInterface> = await postService.get({postId});
-      if(posts.length < 1){
-        throw(new NoRecordFoundError("Post not found"));
+      if(posts.length < 1 || !posts){
+        return next(new NoRecordFoundError("Post not found"));
       }
 
       // get imageUrls for post images
