@@ -16,7 +16,7 @@ export const userSchema: Mongoose.Schema = new Mongoose.Schema({
     },
     isVerified: {
         type: Boolean,
-        default: false
+        default: true
     },
     stars: {
         type: Number,
